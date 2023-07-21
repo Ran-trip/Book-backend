@@ -1,0 +1,26 @@
+{
+  "name": "booksback",
+  "version": "1.0.0",
+  "description": "- Import database",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ran-trip/Book-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ran-trip/Book-backend/issues"
+  },
+  "homepage": "https://github.com/Ran-trip/Book-backend#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
