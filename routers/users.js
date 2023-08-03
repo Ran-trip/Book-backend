@@ -1,9 +1,9 @@
 const usersRouter = require('express').Router();
 const Joi = require('joi');
 const argon2 = require('argon2');
-const jwt = require('jsonwebtoken');
+const { generateJwt } = require('../utils/auth');
 
-require('dotenv').config();
+
 
 const { findByEmail, insertUser } = require('../models/users')
 
@@ -41,11 +41,8 @@ usersRouter.post('/', async (req, res) => {
     // Insérer dans la DB
     await insertUser(value.email, hashedPassword, 'ROLE_USER');
     
-    // créer un JWT
-    const jwtKey= jwt.sign({
-        email: value.email,
-        role: 'ROLE_USER',
-    }, process.env.JWT_SECRET)
+    // créer un JWT importé de utils/auth
+    const jwtKey = generateJwt(value.email , 'ROLE_USER');
 
     return res.json({
         credential: jwtKey
@@ -62,7 +59,8 @@ usersRouter.post('/login', async (req, res) => {
     }
     //verifier si l'utilisateur existe
     // ou finByEmail(req.body.email)
-    const [[existingUser]] = await findByEmail(value.email)
+    const [[existingUser]] = await findByEmail(value.email);
+
     // Si l'utilisateur n'existe pas on peut quitter
     if (!existingUser) {
         return res.status(403).json({
@@ -73,19 +71,17 @@ usersRouter.post('/login', async (req, res) => {
     // on lui passe le password existingUser.password et vérifier si c'est le meme value.password
     // argon2i verifie si le hash correspond au password en dur
     //true si c'est le vrai mot de passe
-    const verified = await argon2.verify(existingUser.password, value.password)
+    const verified = await argon2.verify(existingUser.password, value.password);
+
     if (!verified) {
         return res.status(400).json({
             message: "l'utilisateur ou le mot de passe est incorrect"
         });
     }
     // si son password est bon, on lui donne un JWT
-    const jwtKey = jwt.sign({
-        email: value.email,
-        role: 'ROLE_USER',        
-    }, process.env.JWT_SECRET )
+    const jwtKey = generateJwt(value.email , 'ROLE_USER');
 
-    res.json({
+    return res.json({
         credential: jwtKey 
     });
 }); 
