@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
@@ -8,7 +9,9 @@ const usersRouter = require('./routers/users');
 
 require('dotenv').config();
 
-//middleware qui va interpréter les body de la requête
+app.use(cors());
+
+//middleware comprendre les requête de type json, qui va être interpréter les body de la requête sous forme de json
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
