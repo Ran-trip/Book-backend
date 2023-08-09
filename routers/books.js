@@ -1,12 +1,8 @@
-const booksRouter = require('express').Router();
-const { findAll } = require('../models/books');
+const booksRouter = require("express").Router();
 
 //controller
-booksRouter.get('/', async (req, res) => {
-    const [books] = await findAll();
-    res.json(books);
-});
-
-module.exports =
-    booksRouter
+booksRouter.post("/",  (req, res) =>
+  res.json('books'));
 ;
+
+module.exports = booksRouter;

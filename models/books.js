@@ -1,8 +1,8 @@
-const connection = require('../connexion');
+// const connection = require('../connexion');
 
-// retourner le résultat de la requête
-const findAll = () =>  connection.promise().query('SELECT * FROM books');
+// // retourner le résultat de la requête
+// const findAll = () =>  connection.promise().query('SELECT * FROM books');
 
-module.exports = {
-    findAll,
-};
+// module.exports = {
+//     findAll,
+// };

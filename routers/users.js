@@ -5,7 +5,7 @@ const { generateJwt } = require('../utils/auth');
 
 
 
-const { findByEmail, insertUser } = require('../models/users')
+const { findByEmail, insertUser } = require('../models/users');
 
 // validation de données avec Joi
 const userSchema = Joi.object({
@@ -45,12 +45,13 @@ usersRouter.post('/', async (req, res) => {
     const jwtKey = generateJwt(value.email , 'ROLE_USER');
 
     return res.json({
-        credential: jwtKey
+        credential: jwtKey,
     });
     
 });
 
 usersRouter.post('/login', async (req, res) => {
+
     //vérifier les données de formulaire
     const { value, error } = userSchema.validate(req.body);
     
@@ -64,22 +65,22 @@ usersRouter.post('/login', async (req, res) => {
     // Si l'utilisateur n'existe pas on peut quitter
     if (!existingUser) {
         return res.status(403).json({
-            message: "l'utilisateur ou le mot de passe est incorrect"
+            message: "email ou mot de passe incorrect"
         });
     }
     // si c'est le cas, on vérifie son password
     // on lui passe le password existingUser.password et vérifier si c'est le meme value.password
     // argon2i verifie si le hash correspond au password en dur
     //true si c'est le vrai mot de passe
-    const verified = await argon2.verify(existingUser.password, value.password);
+    const verified = await argon2.verify(existingUser.password, value.password, existingUser.role);
 
     if (!verified) {
-        return res.status(400).json({
-            message: "l'utilisateur ou le mot de passe est incorrect"
+        return res.status(403).json({
+            message: "email ou mot de passe est incorrect"
         });
     }
     // si son password est bon, on lui donne un JWT
-    const jwtKey = generateJwt(value.email , 'ROLE_USER');
+    const jwtKey = await generateJwt(value.email, 'ROLE_USER');
 
     return res.json({
         credential: jwtKey 
