@@ -18,6 +18,7 @@ mysql -u user -p database < db/books.sql
 cp .env.sample .env # add your custom environments variables
 npm install
 npm start
+npm install --save multer 
 ```
 ## Database structure
 
