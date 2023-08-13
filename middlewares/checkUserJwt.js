@@ -5,7 +5,7 @@ const checkUserJwt = (req, res, next) => {
   console.log(req.headers.authorization);
   
   if (!req.headers.authorization) {
-    res.status(401).json();
+    res.status(401).json({message: "Unauthorized: Missing JWT"});
   }
 
   // jwt verifie ici le req.headers.authorization est valide
@@ -19,7 +19,7 @@ const checkUserJwt = (req, res, next) => {
     }
 
   } catch (err) {
-    return res.status(401).json();
+    return res.status(401).json({message: "Unauthorized: Invalid Role"});
   }
   
 };

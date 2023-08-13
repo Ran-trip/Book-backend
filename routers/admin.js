@@ -3,16 +3,19 @@ const Joi = require('joi');
 const argon2 = require('argon2');
 const { generateJwt } = require('../utils/auth');
 
-const { findByEmail } = require('../models/users');
+const { findAdmin } = require('../models/admin');
+
+const checkJwt = require('../middlewares/checkJwt.JS')
 
 
 
 const userSchema = Joi.object({
     email: Joi.string().email({tlds: { allow: ['com', 'net']}}).required(),
     password: Joi.string().min(8).presence('required'),
+
 });
 
-adminRouter.post('/login', async (req, res) => {
+adminRouter.post('/login', checkJwt, async (req, res) => {
 
 
     const { value, error } = userSchema.validate(req.body);
@@ -21,7 +24,7 @@ adminRouter.post('/login', async (req, res) => {
         return res.status(400).json(error);
     }
  
-    const [[existingUser]] = await findByEmail(value.email);
+    const [[existingUser]] = await findAdmin(value.email, value.password);
 
  
     if (!existingUser) {
@@ -29,6 +32,7 @@ adminRouter.post('/login', async (req, res) => {
             message: "email ou mot de passe incorrect"
         });
     }
+    
 
     const verified = await argon2.verify(existingUser.password, value.password);
 
@@ -38,11 +42,17 @@ adminRouter.post('/login', async (req, res) => {
         });
     }
 
-    const jwtKey = generateJwt(value.email, 'ROLE_ADMIN');
+    const userRole = existingUser.role;
+
+    const jwtKey = await generateJwt(value.email, userRole);
+    // console.log(value)
 
     return res.json({
-        credential: jwtKey 
+        role: userRole,
+        credential: jwtKey
+        
     });
 }); 
+
 
 module.exports = adminRouter;

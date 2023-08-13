@@ -5,6 +5,7 @@ const { generateJwt } = require('../utils/auth');
 
 
 
+
 const { findByEmail, insertUser } = require('../models/users');
 
 // validation de données avec Joi
@@ -42,7 +43,7 @@ usersRouter.post('/', async (req, res) => {
     await insertUser(value.email, hashedPassword, 'ROLE_USER');
     
     // créer un JWT importé de utils/auth
-    const jwtKey = generateJwt(value.email , 'ROLE_USER');
+    const jwtKey = generateJwt(value.email , 'ROLE_USER' );
 
     return res.json({
         credential: jwtKey,
@@ -50,7 +51,7 @@ usersRouter.post('/', async (req, res) => {
     
 });
 
-usersRouter.post('/login', async (req, res) => {
+usersRouter.post('/login',  async (req, res) => {
 
     //vérifier les données de formulaire
     const { value, error } = userSchema.validate(req.body);
@@ -61,7 +62,6 @@ usersRouter.post('/login', async (req, res) => {
     //verifier si l'utilisateur existe
     // ou finByEmail(req.body.email)
     const [[existingUser]] = await findByEmail(value.email);
-
     // Si l'utilisateur n'existe pas on peut quitter
     if (!existingUser) {
         return res.status(403).json({
@@ -73,14 +73,14 @@ usersRouter.post('/login', async (req, res) => {
     // argon2i verifie si le hash correspond au password en dur
     //true si c'est le vrai mot de passe
     const verified = await argon2.verify(existingUser.password, value.password, existingUser.role);
-
+console.log(verified)
     if (!verified) {
         return res.status(403).json({
             message: "email ou mot de passe est incorrect"
         });
     }
-    // si son password est bon, on lui donne un JWT
-    const jwtKey = await generateJwt(value.email, 'ROLE_USER');
+    // si son password est bon, on lui donne un JWT :enlever le await devant genrateJwt
+    const jwtKey = await generateJwt(value.email, value.role);
 
     return res.json({
         credential: jwtKey 

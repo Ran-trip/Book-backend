@@ -87,11 +87,11 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`name`, `description`, `releaseDate`,`picture`,`price`,`publisherId`,`genreId` ) VALUES
     ('Solo Leveling', 'In a world where hunters, humans who possess magical abilities, must battle deadly monsters to protect the human race from certain annihilation', '1996-07-25', 'https://upload.wikimedia.org/wikipedia/en/9/99/Solo_Leveling_Webtoon.png', 5.5, 5, 8),
-    ('Harry Potter', 'Harry Potter, un jeune orphelin, est élevé par son oncle et sa tante qui le détestent...', '1999-08-25', 'db/bddfinal.PNG', 8.8, 6, 10),
-    ('Iron Man', 'Le corps de Iron Man est celui d un homme normal, sans pouvoir surnaturel ou surhumain, mais rendu surpuissant', '1970-05-29', 'db/assets/iron.png', 5.5, 3, 9),
-    ('Du ohabolana au hainteny', 'Boky fandalinana siantifika ny Ohabolana sy ny Hain-teny (malagasy) nosoratan i Bakoly Domenichini-Ramiaramanana', '1983-04-01', 'db/assets/gasy.jpg', 40.5, 4, 3),
-    ('One Piece', 'Monkey D. Luffy rêve de retrouver ce trésor légendaire et de devenir le nouveau Roi des Pirates', '1997-07-22', 'db/assets/op.jpg', 18.5, 1, 7),
-    ('THe Ink Black Heart', 'Edie est persécutée en ligne par un mystérieux personnage répondant au pseudonyme de Anomie','2022-08-30', 'blob:https://www.kobo.com/6887875f-8f82-491b-a839-b8d47b130ea0', 20.96, 6, 1) 
+    ('Harry Potter', 'Harry Potter, un jeune orphelin, est élevé par son oncle et sa tante qui le détestent...', '1999-08-25', 'https://picsum.photos/200/300', 8.8, 6, 10),
+    ('Iron Man', 'Le corps de Iron Man est celui d un homme normal, sans pouvoir surnaturel ou surhumain, mais rendu surpuissant', 'https://picsum.photos/id/870/200/300?grayscale&blur=2', 5.5, 3, 9),
+    ('Du ohabolana au hainteny', 'Boky fandalinana siantifika ny Ohabolana sy ny Hain-teny (malagasy) nosoratan i Bakoly Domenichini-Ramiaramanana', '1983-04-01', 'https://picsum.photos/200/300/?blur', 40.5, 4, 3),
+    ('One Piece', 'Monkey D. Luffy rêve de retrouver ce trésor légendaire et de devenir le nouveau Roi des Pirates', '1997-07-22', 'https://picsum.photos/200/300/?blur=2', 18.5, 1, 7),
+    ('THe Ink Black Heart', 'Edie est persécutée en ligne par un mystérieux personnage répondant au pseudonyme de Anomie','2022-08-30', 'https://www.kobo.com/6887875f-8f82-491b-a839-b8d47b130ea0', 20.96, 6, 1) 
 ;
 
 

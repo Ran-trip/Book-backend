@@ -1,6 +1,7 @@
 const booksRouter = require("express").Router();
 const multer = require("multer");
-const { insertBook, findAll } = require("../models/books");
+const { insertBook, findAll, deleteBookById } = require("../models/books");
+
 
 const upload = multer({ dest: "uploads/books/" });
 
@@ -11,8 +12,22 @@ booksRouter.get("/", async (req, res) => {
   res.json(books);
 });
 
+//appel du model dans ma route
+booksRouter.delete('/:id', async (req, res) => {
+  //j'attends le résultat await
+  // revient sous forme de fonction
+  const [{affectedRows }] = await deleteBookById(req.params.id);
+  if (affectedRows) {
+    res.status(202);
+  } else {
+    res.status(204);
+  }
+  return res.json();
+});
+
 //controller
-booksRouter.post("/", upload.single("picture"), async (req, res) => {
+booksRouter.post("/",  upload.single("picture"), async (req, res) => {
+  console.log(req.body, req.file);
   const [{ insertId: id }] = await insertBook(req.body, req.file.path);
 
   //enregistrer dans la db

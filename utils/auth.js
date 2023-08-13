@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
+
 const generateJwt = (email, role) => jwt.sign({
         email,
         role,        
@@ -11,3 +12,5 @@ const generateJwt = (email, role) => jwt.sign({
 module.exports = {
     generateJwt
 }
+
+//jwt.sign({sub: req.user.id})
