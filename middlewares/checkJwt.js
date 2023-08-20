@@ -1,29 +1,23 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const checkJwt = (req, res, next) => {
-  console.log(req.headers.authorization);
+    const authorizationHeader = req.headers.authorization;
 
-  if (!req.headers.authorization) {
-    return res.status(403).json({message: "Unauthorized: Missing JWT"});
-  }
-
-  // jwt verifie ici le req.headers.authorization est valide
-  try {
-    const verifiedJwt = jwt.verify(
-      req.headers.authorization,
-      process.env.JWT_SECRET
-    );
-    if (verifiedJwt.role === "ROLE_ADMIN") {
-      // console.log(verifiedJwt)
-      return next();
-    } else {
-      return res.status(403).json({message: "Unauthorized: Missing JWT"});
+    if (!authorizationHeader) {
+        return res.status(401).json({ message: 'Authorization token missing' });
     }
-  } catch (err) {
-    return res.status(401).json({message: "Unauthorized: Invalid Token"});
-  }
+
+    try {
+        const token = authorizationHeader.split(' ')[1]; // Récupérer le token à partir de l'en-tête
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        console.log('Invalid token:', err);
+        return res.status(403).json({ message: 'Invalid token' });
+    }
 };
 
 module.exports = checkJwt;

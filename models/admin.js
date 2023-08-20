@@ -1,8 +1,8 @@
-const connection = require('../connexion');
+const connection = require("../connexion");
 
-const findAdmin = (email, password, role) => (connection.promise().query('SELECT * FROM users WHERE email =?', [email, password, role ]));
+const findAdmin = (email, password, role) =>
+  connection.promise().query("SELECT * FROM admin WHERE email =?", [email]);
 
 module.exports = {
-    findAdmin,
-  };
-  
+  findAdmin,
+};

@@ -1,14 +1,23 @@
-const connection = require('../connexion');
+const connection = require("../connexion");
 
-const findAll = () => connection.promise().query('SELECT * FROM genres');
+const findAll = () => connection.promise().query("SELECT * FROM genres");
 
-const findOneById = (id) => connection.promise().query('SELECT * FROM genres WHERE id = ?', [id]);
+const findOneById = (id) =>
+  connection.promise().query("SELECT * FROM genres WHERE id = ?", [id]);
 
-const findOneByName = (name) => connection.promise().query('SELECT * FROM genres WHERE name = ?', [name]);
+const findOneByName = (name) =>
+  connection.promise().query("SELECT * FROM genres WHERE name = ?", [name]);
 
-const insertGenre = (name) => connection.promise().query('INSERT INTO genres (`name`) VALUES (?)', [name]);
+const insertGenre = (name) =>
+  connection.promise().query("INSERT INTO genres (`name`) VALUES (?)", [name]);
 
-const deleteOneById = (id) => connection.promise().query('DELETE FROM genres WHERE id = ?', [id]);
+const deleteOneById = (id) =>
+  connection.promise().query("DELETE FROM genres WHERE id = ?", [id]);
+
+const updateGenre = (id, name) =>
+  connection
+    .promise()
+    .query("UPDATE genres SET name = ? WHERE id = ?", [name, id]);
 
 module.exports = {
   findAll,
@@ -16,4 +25,5 @@ module.exports = {
   insertGenre,
   deleteOneById,
   findOneById,
+  updateGenre,
 };
