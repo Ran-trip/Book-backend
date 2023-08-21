@@ -3,6 +3,7 @@ const Joi = require("joi");
 
 const checkJwt = require("../middlewares/checkJwt.JS");
 
+
 const {
   findAll,
   findOneByName,
@@ -57,7 +58,7 @@ genresRouter.post("/", async (req, res) => {
   });
 });
 
-genresRouter.delete("/:id", async (req, res) => {
+genresRouter.delete("/:id", checkJwt, async (req, res) => {
   const [{ affectedRows }] = await deleteOneById(req.params.id);
   if (affectedRows) {
     res.status(202);
@@ -67,7 +68,7 @@ genresRouter.delete("/:id", async (req, res) => {
   return res.json();
 });
 
-genresRouter.put("/:id", async (req, res) => {
+genresRouter.put("/:id", checkJwt, async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   try {

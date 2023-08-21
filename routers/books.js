@@ -1,5 +1,6 @@
 const booksRouter = require("express").Router();
 const multer = require("multer");
+const checkJwt = require("../middlewares/checkJwt.JS");
 
 const {
   insertBook,
@@ -19,9 +20,9 @@ booksRouter.get("/", async (req, res) => {
 });
 
 //appel du model dans ma route
-booksRouter.delete("/:id", async (req, res) => {
-  //j'attends le résultat await
-  // revient sous forme de fonction
+//j'attends le résultat await
+// revient sous forme de fonction
+booksRouter.delete("/:id", checkJwt, async (req, res) => {
   const [{ affectedRows }] = await deleteBookById(req.params.id);
   if (affectedRows) {
     res.status(202);
@@ -32,12 +33,12 @@ booksRouter.delete("/:id", async (req, res) => {
 });
 
 //controller
-booksRouter.post("/", upload.single("picture"), async (req, res) => {
+//enregistrer dans la db
+//tout les informations dans req.body, l'image dans req.file
+booksRouter.post("/", checkJwt, upload.single("picture"), async (req, res) => {
   console.log(req.body, req.file);
   const [{ insertId: id }] = await insertBook(req.body, req.file.path);
 
-  //enregistrer dans la db
-  //tout les informations dans req.body, l'image dans req.file
   res.json({
     ...req.body,
     id,
@@ -50,7 +51,7 @@ booksRouter.get("/:id", async (req, res) => {
   res.json(book);
 });
 
-booksRouter.put("/:id", upload.single("picture"), async (req, res) => {
+booksRouter.put("/:id", checkJwt, upload.single("picture"), async (req, res) => {
   const bookId = req.params.id;
   const updatedData = req.body;
   const picturePath = req.file ? req.file.path : null;

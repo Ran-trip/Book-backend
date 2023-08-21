@@ -15,4 +15,3 @@ module.exports = {
   generateJwt,
 };
 
-//jwt.sign({sub: req.user.id})

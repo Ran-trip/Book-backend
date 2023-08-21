@@ -10,7 +10,7 @@ const checkJwt = (req, res, next) => {
     }
 
     try {
-        const token = authorizationHeader.split(' ')[1]; // Récupérer le token à partir de l'en-tête
+        const token = authorizationHeader.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
