@@ -18,7 +18,7 @@ const userSchema = Joi.object({
 usersRouter.post("/", async (req, res) => {
   // destructuration req.body validé par Joi
   const { error, value } = userSchema.validate(req.body);
-  // si il y a une erreur, une erreur 400 a l'utilisateur, et Json avec la liste des erreurs
+  // en cas d'erreur une erreur 400 est envoyé avec la liste des erreurs
   if (error) {
     return res.status(400).json(error);
   }

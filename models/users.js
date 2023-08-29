@@ -1,6 +1,5 @@
 const connection = require("../connexion");
-// appel à la base de données
-// ? remplacé par email
+
 const findByEmail = (email) =>
   connection.promise().query("SELECT * FROM users WHERE email =?", [email]);
 
